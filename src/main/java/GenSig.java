@@ -4,10 +4,7 @@ import java.security.*;
 class GenSig {
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Usage: GenSig nameOfFileToSign");
-        }
-        else try {
+        try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
             keyGen.initialize(1024, random);
@@ -17,7 +14,7 @@ class GenSig {
             //get public and private keys
             Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
             dsa.initSign(priv);
-            FileInputStream fis = new FileInputStream("src/"+args[0]);
+            FileInputStream fis = new FileInputStream("src/main/java/input.txt");
             BufferedInputStream bufin = new BufferedInputStream(fis);
             byte[] buffer = new byte[1024];
             int len;
@@ -28,12 +25,12 @@ class GenSig {
             //Generate the Signature
             byte[] realSig = dsa.sign();
             /* save the signature in a file */
-            FileOutputStream sigfos = new FileOutputStream("src/sig");
+            FileOutputStream sigfos = new FileOutputStream("src/main/java/sig");
             sigfos.write(realSig);
             sigfos.close();
             /* save the public key in a file */
             byte[] key = pub.getEncoded();
-            FileOutputStream keyfos = new FileOutputStream("src/suepk");
+            FileOutputStream keyfos = new FileOutputStream("src//main/java/suepk");
             keyfos.write(key);
             keyfos.close();
         } catch (Exception e) {
