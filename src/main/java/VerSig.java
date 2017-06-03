@@ -8,14 +8,9 @@ import java.security.spec.X509EncodedKeySpec;
 class VerSig {
 
     public static void main(String[] args) {
-
-        if (args.length != 3) {
-            System.out.println("Usage: VerSig " +
-                    "publickeyfile signaturefile " + "datafile");
-        }
-        else try {
+        try {
             // read in the encoded public key bytes.
-            FileInputStream keyfis = new FileInputStream("src/"+args[0]);
+            FileInputStream keyfis = new FileInputStream("src/main/java/suepk");
             byte[] encKey = new byte[keyfis.available()];
             keyfis.read(encKey);
             keyfis.close();
@@ -26,7 +21,7 @@ class VerSig {
             //using the KeyFactory object to generate a PublicKey from the key specification
             PublicKey pubKey = keyFactory.generatePublic(pubKeySpec);
             //signature bytes from the file specified as the second command line argument.
-            FileInputStream sigfis = new FileInputStream("src/"+args[1]);
+            FileInputStream sigfis = new FileInputStream("src/main/java/sig");
             byte[] sigToVerify = new byte[sigfis.available()];
             sigfis.read(sigToVerify);
             sigfis.close();
@@ -34,7 +29,7 @@ class VerSig {
             //initialize the Signature object
             sig.initVerify(pubKey);
 
-            FileInputStream datafis = new FileInputStream("src/"+args[2]);
+            FileInputStream datafis = new FileInputStream("src/main/java/input.txt");
             BufferedInputStream bufin = new BufferedInputStream(datafis);
             byte[] buffer = new byte[1024];
             int len;
